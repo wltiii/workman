@@ -1,0 +1,130 @@
+#!/usr/bin/env groovy
+
+@Grab(group='org.json', module='json', version='20180813')
+import groovy.json.JsonSlurper
+import groovy.json.JsonBuilder
+
+def  usage() {
+    println 'usage:'
+    println 'work'
+    println '\tChange directory to the directory of the most recently used project alias.  If no alias is set, the CWD does not change.'
+    println ''
+    println 'work <project alias>'
+    println '\tChange directory to the location of the directory associated with the project alias.'
+    println ''
+    println 'work --list'
+    println '\tLists the known work locations, showing both the alias and the corresponding path.'
+    println ''
+    println 'work --save'
+    println '\tSaves the current path to the list of known work locations using the final segment of the path as the alias. If said alias exists, it will be suffixed.'
+    println ''
+    println 'work --save <project alias>'
+    println '\tSaves the current path to the list of known work locations with the specificed project alias.'
+    println ''
+    println 'work --rename <existing project alias> <new project alias>'
+    println '\tRenames the existing project alias to the new alias. If the new alias exists, it will be suffixed. If the existing project alias does not exist, no change occurs.'
+    println ''
+    println 'work -h --help'
+    println '\tOutput this help.'
+}
+
+def validNumberOfArgs(args) {
+    args.size() < 4
+}
+
+def switchTo() {
+    println 'switchTo()'
+}
+
+def list() {
+    println 'list()'
+}
+
+// SEE: https://stackoverflow.com/questions/159148/groovy-executing-shell-commands
+def saveWithDefaultAlias() {
+    println 'saveWithDefaultAlias()'
+}
+
+def saveWithAlias() {
+    println 'saveWithAlias()'
+}
+
+def getHomeDir() {
+    def userhome = System.getProperty('user.home')
+    def workHome = '/.work'
+
+    def homeDir = new File("${System.getProperty('user.home')}/.work")
+
+    if (!homeDir.exists()) {
+        homeDir.mkdirs()
+    }
+
+    return homeDir
+}
+
+def getAliasFile() {
+    def aliasFile = new File(homeDir, "alias.json")
+
+    if (!aliasFile.exists()) {
+        aliasFile.createNewFile()
+    }
+
+    return aliasFile
+}
+
+def getJsonBuilder() {
+    println "jsonBuilder()"
+
+    def stub = """{
+        "work": {
+            "last": {
+                "alias": "stub",
+                "dir": "stub"
+            },
+            "aliases": []
+        }
+    }"""
+
+    def aliasJson = aliasFile.text ? new JsonSlurper().parseText(aliasFile.text)
+        : new JsonSlurper().parseText(stub)
+
+    return new JsonBuilder(aliasJson)
+
+}
+
+def save() {
+    println 'save()'
+    manFile = aliasFile
+    def cwd = System.getProperty('user.dir')
+    def name = new File(cwd).name
+
+    def builder = jsonBuilder
+   // set last alias
+    builder.content.work.last.alias = name
+    builder.content.work.last.dir = cwd
+    // add to aliases
+    builder.content.work.aliases << [ alias: name, dir: cwd ]
+
+    // println builder.toPrettyString()
+    aliasFile.newWriter().withWriter { w ->
+        w << builder.toPrettyString()
+    }
+}
+
+if (args.size() == 0) {
+    switchTo()
+}
+if (args.contains('-h') || args.contains('--help')) {
+    usage()
+}
+else if (args.contains('--list')) {
+    list()
+}
+else if (args.contains('--save')) {
+    save()
+}
+else {
+    println 'NOT YET IMPLEMENTED'
+}
+
+println '...done'
