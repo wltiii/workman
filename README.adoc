@@ -1,0 +1,71 @@
+= WORKMAN - A Directory Switcher
+Bill Turner
+:toc:
+:toc-placement!:
+
+toc::[]
+
+== Purpose
+To provide a quick way to change or apply appropriate *tcr* - 
+_(test && commit) || revert_ - variants to projects.
+
+
+== Motivation
+Using tcr can be likened to doing *TDD* on steriods. Inspired 
+by projects like _SDKMAN_, the blog post _TCR Variants (test && commit || revert)_ and 
+the fact that many developers work as consultants or on diverse projects with
+different toolchains, a simple tool for installing and switching variants seemed necessary.
+
+It is hoped that this tool will:
+
+. increase adoption of tcr (and have more code driven by tests).
+. be flexible to meet needs of diverse development environments
+. expand upon variations 
+. share knowledge within the community.
+
+== Getting Started
+=== Linux Installation
+_not yet implemented_
+
+=== Mac Installation
+_not yet implemented_
+
+=== Windows Installation
+_not yet implemented_
+
+== Running Workman
+You run Workman with the following command:
+
+`$ work`
+
+Run without options, the directory will change to the most recently
+used project alias. If no alias has been set, the directory will not change.
+
+`work --save`
+
+The save option saves the current path to the list of known work locations 
+using the final segment of the path as the alias. If said alias exists, it will be suffixed.
+
+`work --save <project alias>`
+ 
+Adding a project alias after the save option adds the current path to the list of known 
+work locations with the specificed project alias.
+
+`work <project alias>`
+
+Changes the directory to the location of the directory associated with the project alias.
+
+`work --list`
+
+Lists the known work locations, showing both the alias and the corresponding path.
+
+`work --rename <existing project alias> <new project alias>`
+
+Renames the existing project alias to the new alias. If the new alias exists, it will be 
+suffixed. If the existing project alias does not exist, no change occurs.
+
+`work -h --help`
+
+Displays usage help.
+
+
