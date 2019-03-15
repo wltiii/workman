@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+# deploys this to the path directory
+#
+# yes, work could be added to the path, but felt it was
+# to deploy to the dropbox dir so that it is available
+# wherever i might be as long as the dropbox dir
+# itself is on the path
+#
+cp work ~/Dropbox/groovyscripts/
