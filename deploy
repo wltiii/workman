@@ -2,9 +2,11 @@
 #
 # deploys this to the path directory
 #
-# yes, work could be added to the path, but felt it was
-# to deploy to the dropbox dir so that it is available
-# wherever i might be as long as the dropbox dir
-# itself is on the path
+# yes, work could be added to the path, but felt it better
+# to deploy to my bin/groovy folder, which is on PATH.
+# This, links to my dropbox, so should be available at
+# client sites if allowed to connect to Dropbox. Otherwise,
+# I will just have to copy it from my Dropbox account.
 #
-cp work ~/Dropbox/groovyscripts/
+# cp work ~/Dropbox/groovyscripts/
+cp work ~/bin/groovy
