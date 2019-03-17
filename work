@@ -37,18 +37,26 @@ def switchTo() {
 }
 
 def list() {
-    println 'list()'
+    if (!aliasFile.text) {
+        println "Workman file empty."
+        return
+    }
+
+    def BOLD = '\033[0;1m';
+    def UNDERLINE = '\033[0;4m';
+    def RESET = '\033[0;0m';
+    def BOLD_UNDERLINE = '\033[0;1;4m'
+    def json = jsonFromFile
+    json.work.aliases.sort{ it.alias }.each { 
+        println "${BOLD_UNDERLINE}${it.alias}${RESET}"
+        println "path: location: ${it.dir}"
+        println "tags: ${it.tags.join(', ')}"
+        println ""
+    }
+    
 }
 
 // SEE: https://stackoverflow.com/questions/159148/groovy-executing-shell-commands
-def saveWithDefaultAlias() {
-    println 'saveWithDefaultAlias()'
-}
-
-def saveWithAlias() {
-    println 'saveWithAlias()'
-}
-
 def getHomeDir() {
     def userhome = System.getProperty('user.home')
     def workHome = '/.work'
@@ -72,24 +80,46 @@ def getAliasFile() {
     return aliasFile
 }
 
-def getJsonBuilder() {
-    println "jsonBuilder()"
+def slurpText(text) {
+    return new JsonSlurper().parseText(text)
+}
 
-    def stub = """{
+def getJsonFromFile() {
+    return slurpText(aliasFile.text)
+}
+
+def getJsonFromStub() {
+    return slurpText("""{
         "work": {
             "last": {
                 "alias": "stub",
-                "dir": "stub"
+                "dir": "stub",
+                "tags": ["stub"]
             },
-            "aliases": []
+            "aliases": [],
+            "tags": ["stub"]
         }
-    }"""
+    }""")
+}
 
-    def aliasJson = aliasFile.text ? new JsonSlurper().parseText(aliasFile.text)
-        : new JsonSlurper().parseText(stub)
+def getAliasJson() {
+    return aliasFile.text ? jsonFromFile : jsonFromStub
+}
+
+def getJsonBuilder() {
+    println "jsonBuilder()"
+
 
     return new JsonBuilder(aliasJson)
 
+}
+
+def saveWithDefaultAlias() {
+    println 'saveWithDefaultAlias()'
+}
+
+def saveWithAlias() {
+    println 'saveWithAlias()'
 }
 
 def save() {
