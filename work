@@ -32,6 +32,7 @@ def validNumberOfArgs(args) {
     args.size() < 4
 }
 
+// SEE: https://stackoverflow.com/questions/159148/groovy-executing-shell-commands
 def switchTo() {
     println 'switchTo()'
 }
@@ -47,8 +48,14 @@ def list() {
     def RESET = '\033[0;0m';
     def BOLD_UNDERLINE = '\033[0;1;4m'
     def json = jsonFromFile
+    def current = json.work.last.alias
+
     json.work.aliases.sort{ it.alias }.each { 
-        println "${BOLD_UNDERLINE}${it.alias}${RESET}"
+        def aliasLine = current != it.alias ?
+            "${BOLD_UNDERLINE}${it.alias}${RESET}" :
+            "${BOLD_UNDERLINE}*${it.alias}*${RESET}"
+        
+        println aliasLine
         println "path: location: ${it.dir}"
         println "tags: ${it.tags.join(', ')}"
         println ""
@@ -56,7 +63,6 @@ def list() {
     
 }
 
-// SEE: https://stackoverflow.com/questions/159148/groovy-executing-shell-commands
 def getHomeDir() {
     def userhome = System.getProperty('user.home')
     def workHome = '/.work'
