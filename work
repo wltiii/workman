@@ -35,6 +35,65 @@ def validNumberOfArgs(args) {
 // SEE: https://stackoverflow.com/questions/159148/groovy-executing-shell-commands
 def switchTo() {
     println 'switchTo()'
+    // def cmd = 'echo $PWD'
+    // println cmd
+    // def proc = cmd.execute()
+    // println proc.in.text
+    // println proc.err.text
+
+    // println proc.err.text    
+    // // def cmd = "/bin/bash cd ${jsonFromFile.work.last.dir}"
+    // cmd = "cd ${jsonFromFile.work.last.dir}"
+    // println cmd
+    // proc = cmd.execute()
+
+    // println proc.err.text  
+
+    // println 'after CD'
+    // cmd = 'echo $PWD'
+    // println cmd
+    // proc = cmd.execute()
+    // println proc.in.text
+    // println proc.err.text
+  
+    def sout = new StringBuilder()
+    def serr = new StringBuilder()
+
+    def proc = "ls".execute()
+    proc.consumeProcessOutput(sout, serr)
+    proc.waitForOrKill(1000)
+    println "first ls -> out> $sout err> $serr"
+
+    println "user.dir is " + System.properties.'user.dir'
+  
+    def to = jsonFromFile.work.last.dir
+    // println "to -> $to"
+    // def proc = ["/bin/bash", "cd", "${to}"].execute()
+    // def cmd = "/bin/bash -c cd ${to}"
+    def cmd = ["sh", "-c", "cd ${to}"]
+    println "executing $cmd"
+    proc = cmd.execute()
+    proc.consumeProcessOutput(sout, serr)
+    proc.waitForOrKill(1000)
+    println "out> $sout err> $serr"
+
+    System.properties.'user.dir' = to
+    println "user.dir is " + System.properties.'user.dir'
+    proc = "ls".execute()
+    // proc.consumeProcessOutput(sout, serr)
+    // proc.waitForOrKill(1000)
+    // println "second ls -> out> $sout err> $serr"
+    // cwd = new File('.').canonicalPath
+    // println "after cwd is $cwd"
+  
+    // sout = new StringBuilder() 
+    // serr = new StringBuilder()
+    // proc = "echo \$PWD".execute()
+    // proc.consumeProcessOutput(sout, serr)
+    // proc.waitForOrKill(1000)
+    // println "out> $sout err> $serr"
+
+
 }
 
 def list() {
@@ -158,6 +217,9 @@ else if (args.contains('--list')) {
 }
 else if (args.contains('--save')) {
     save()
+}
+else if (args.size() == 1) {
+    switchTo()
 }
 else {
     println 'NOT YET IMPLEMENTED'
