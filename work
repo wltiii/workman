@@ -97,6 +97,8 @@ def switchTo() {
 }
 
 def list() {
+    println 'list()'
+
     if (!aliasFile.text) {
         println "Workman file empty."
         return
@@ -109,6 +111,9 @@ def list() {
     def json = jsonFromFile
     def current = json.work.last.alias
 
+    // println "current is ${current}"
+    // println "json.work.aliases is ${json.work.aliases}"
+
     json.work.aliases.sort{ it.alias }.each { 
         def aliasLine = current != it.alias ?
             "${BOLD_UNDERLINE}${it.alias}${RESET}" :
@@ -116,7 +121,7 @@ def list() {
         
         println aliasLine
         println "path: location: ${it.dir}"
-        println "tags: ${it.tags.join(', ')}"
+        println "tags: ${it.tags ? it.tags.join(', ') : ''}"
         println ""
     }
     
