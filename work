@@ -1,5 +1,20 @@
 #!/usr/bin/env groovy
 
+/*
+See the following re: x-terminal-emulator:
+https://askubuntu.com/questions/46627/how-can-i-make-a-script-that-opens-terminal-windows-and-executes-commands-in-the
+https://unix.stackexchange.com/questions/219284/how-to-pass-an-argument-from-a-bash-script-to-x-terminal-emulator-e-bash-c
+https://superuser.com/questions/491632/does-x-terminal-emulator-work-on-os-x
+
+this link has stuff in it regarding copying over the environment, the shortened url points directly to one example
+https://stackoverflow.com/questions/989349/running-a-command-in-a-new-mac-os-x-terminal-window
+https://stackoverflow.com/a/29775705/471133
+
+so, if using a mac, x-terminal-emulator is not available. might want to alias to terminal-app. or? how to make the last work on MAC? stupid MACs
+possilby xterm?
+https://invisible-island.net/xterm/xterm.faq.html
+*/
+
 @Grab(group='org.json', module='json', version='20180813')
 import groovy.json.JsonSlurper
 import groovy.json.JsonBuilder
@@ -41,13 +56,13 @@ def switchTo() {
     // println proc.in.text
     // println proc.err.text
 
-    // println proc.err.text    
+    // println proc.err.text
     // // def cmd = "/bin/bash cd ${jsonFromFile.work.last.dir}"
     // cmd = "cd ${jsonFromFile.work.last.dir}"
     // println cmd
     // proc = cmd.execute()
 
-    // println proc.err.text  
+    // println proc.err.text
 
     // println 'after CD'
     // cmd = 'echo $PWD'
@@ -55,7 +70,7 @@ def switchTo() {
     // proc = cmd.execute()
     // println proc.in.text
     // println proc.err.text
-  
+
     def sout = new StringBuilder()
     def serr = new StringBuilder()
 
@@ -65,7 +80,7 @@ def switchTo() {
     println "first ls -> out> $sout err> $serr"
 
     println "user.dir is " + System.properties.'user.dir'
-  
+
     def to = jsonFromFile.work.last.dir
     // println "to -> $to"
     // def proc = ["/bin/bash", "cd", "${to}"].execute()
@@ -85,8 +100,8 @@ def switchTo() {
     // println "second ls -> out> $sout err> $serr"
     // cwd = new File('.').canonicalPath
     // println "after cwd is $cwd"
-  
-    // sout = new StringBuilder() 
+
+    // sout = new StringBuilder()
     // serr = new StringBuilder()
     // proc = "echo \$PWD".execute()
     // proc.consumeProcessOutput(sout, serr)
@@ -114,17 +129,17 @@ def list() {
     // println "current is ${current}"
     // println "json.work.aliases is ${json.work.aliases}"
 
-    json.work.aliases.sort{ it.alias }.each { 
+    json.work.aliases.sort{ it.alias }.each {
         def aliasLine = current != it.alias ?
             "${BOLD_UNDERLINE}${it.alias}${RESET}" :
             "${BOLD_UNDERLINE}*${it.alias}*${RESET}"
-        
+
         println aliasLine
         println "path: location: ${it.dir}"
         println "tags: ${it.tags ? it.tags.join(', ') : ''}"
         println ""
     }
-    
+
 }
 
 def getHomeDir() {
