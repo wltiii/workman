@@ -1,3 +1,12 @@
 #!/usr/bin/env bash
 #
-cd /home/worldwidewilly/workspace/tcrman
+TO=$1
+
+case "$OSTYPE" in
+  solaris*) echo "SOLARIS" ;;
+  darwin*)  echo "OSX" ;; 
+  linux*)   x-terminal-emulator -e "cd $TO; $SHELL" ;;
+  bsd*)     echo "BSD" ;;
+  msys*)    echo "WINDOWS" ;;
+  *)        echo "unknown: $OSTYPE" ;;
+esac
