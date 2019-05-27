@@ -1,20 +1,5 @@
 #!/usr/bin/env groovy
 
-/*
-See the following re: x-terminal-emulator:
-https://askubuntu.com/questions/46627/how-can-i-make-a-script-that-opens-terminal-windows-and-executes-commands-in-the
-https://unix.stackexchange.com/questions/219284/how-to-pass-an-argument-from-a-bash-script-to-x-terminal-emulator-e-bash-c
-https://superuser.com/questions/491632/does-x-terminal-emulator-work-on-os-x
-
-this link has stuff in it regarding copying over the environment, the shortened url points directly to one example
-https://stackoverflow.com/questions/989349/running-a-command-in-a-new-mac-os-x-terminal-window
-https://stackoverflow.com/a/29775705/471133
-
-so, if using a mac, x-terminal-emulator is not available. might want to alias to terminal-app. or? how to make the last work on MAC? stupid MACs
-possilby xterm?
-https://invisible-island.net/xterm/xterm.faq.html
-*/
-
 @Grab(group='org.json', module='json', version='20180813')
 import groovy.json.JsonSlurper
 import groovy.json.JsonBuilder
@@ -43,79 +28,26 @@ def  usage() {
     println '\tOutput this help.'
 }
 
-def validNumberOfArgs(args) {
-    args.size() < 4
-}
+// def validNumberOfArgs(args) {
+//     args.size() < 4
+// }
 
-// SEE: https://stackoverflow.com/questions/159148/groovy-executing-shell-commands
-def switchTo() {
-    println 'switchTo()'
-    // def cmd = 'echo $PWD'
-    // println cmd
-    // def proc = cmd.execute()
-    // println proc.in.text
-    // println proc.err.text
+def switchTo(aliasName = aliasJson.work.last.alias) {
+    def to = aliasJson.work.aliases.find {
+        it.alias == aliasName
+    }
 
-    // println proc.err.text
-    // // def cmd = "/bin/bash cd ${jsonFromFile.work.last.dir}"
-    // cmd = "cd ${jsonFromFile.work.last.dir}"
-    // println cmd
-    // proc = cmd.execute()
-
-    // println proc.err.text
-
-    // println 'after CD'
-    // cmd = 'echo $PWD'
-    // println cmd
-    // proc = cmd.execute()
-    // println proc.in.text
-    // println proc.err.text
-
-    def sout = new StringBuilder()
-    def serr = new StringBuilder()
-
-    def proc = "ls".execute()
-    proc.consumeProcessOutput(sout, serr)
-    proc.waitForOrKill(1000)
-    println "first ls -> out> $sout err> $serr"
-
-    println "user.dir is " + System.properties.'user.dir'
-
-    def to = jsonFromFile.work.last.dir
-    // println "to -> $to"
-    // def proc = ["/bin/bash", "cd", "${to}"].execute()
-    // def cmd = "/bin/bash -c cd ${to}"
-    def cmd = ["sh", "-c", "cd ${to}"]
-    println "executing $cmd"
+    cmd = "./newwork ${to.dir}"
     proc = cmd.execute()
-    proc.consumeProcessOutput(sout, serr)
-    proc.waitForOrKill(1000)
-    println "out> $sout err> $serr"
 
-    System.properties.'user.dir' = to
-    println "user.dir is " + System.properties.'user.dir'
-    proc = "ls".execute()
-    // proc.consumeProcessOutput(sout, serr)
-    // proc.waitForOrKill(1000)
-    // println "second ls -> out> $sout err> $serr"
-    // cwd = new File('.').canonicalPath
-    // println "after cwd is $cwd"
-
-    // sout = new StringBuilder()
-    // serr = new StringBuilder()
-    // proc = "echo \$PWD".execute()
-    // proc.consumeProcessOutput(sout, serr)
-    // proc.waitForOrKill(1000)
-    // println "out> $sout err> $serr"
-
-
+    println proc.err.text
 }
 
 def list() {
     println 'list()'
 
     if (!aliasFile.text) {
-        println "Workman file empty."
+        println "No work aliases exist."
         return
     }
 
@@ -123,11 +55,8 @@ def list() {
     def UNDERLINE = '\033[0;4m';
     def RESET = '\033[0;0m';
     def BOLD_UNDERLINE = '\033[0;1;4m'
-    def json = jsonFromFile
+    def json = aliasJson
     def current = json.work.last.alias
-
-    // println "current is ${current}"
-    // println "json.work.aliases is ${json.work.aliases}"
 
     json.work.aliases.sort{ it.alias }.each {
         def aliasLine = current != it.alias ?
@@ -140,6 +69,10 @@ def list() {
         println ""
     }
 
+}
+
+def rename(existingAlias, newAlias) {
+    println 'NOT YET IMPLEMENTED'
 }
 
 def getHomeDir() {
@@ -207,11 +140,10 @@ def saveWithAlias() {
     println 'saveWithAlias()'
 }
 
-def save() {
-    println 'save()'
-    manFile = aliasFile
+def save(custAlias) {
+    println "save(${custAlias})"
     def cwd = System.getProperty('user.dir')
-    def name = new File(cwd).name
+    def name = custAlias ? custAlias : new File(cwd).name
 
     def builder = jsonBuilder
    // set last alias
@@ -236,13 +168,11 @@ else if (args.contains('--list')) {
     list()
 }
 else if (args.contains('--save')) {
-    save()
+    def custAlias = args.size() > 1 ? args[1] : '';
+    save(custAlias)
 }
 else if (args.size() == 1) {
-    switchTo()
-}
-else {
-    println 'NOT YET IMPLEMENTED'
+    switchTo(args[0])
 }
 
 println '...done'
