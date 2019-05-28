@@ -37,7 +37,7 @@ def switchTo(aliasName = aliasJson.work.last.alias) {
         it.alias == aliasName
     }
 
-    cmd = "./newwork ${to.dir}"
+    cmd = "newwork ${to.dir}"
     proc = cmd.execute()
 
     println proc.err.text
