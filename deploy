@@ -9,4 +9,7 @@
 # I will just have to copy it from my Dropbox account.
 #
 # cp work ~/Dropbox/groovyscripts/
-cp work ~/bin/groovy
+cp work ~/.work
+cp newwork ~/.work
+
+echo "Add ~/.work to your PATH"
