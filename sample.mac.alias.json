@@ -1,0 +1,85 @@
+{
+    "work": {
+        "last": {
+            "alias": "rules-engine",
+            "dir": "/Users/bturner/workspace/eo-app/eo-backend/src/rules-engine",
+            "tags": [
+                "notification",
+                "mobile",
+                "expo",
+                "push"
+            ]
+        },
+        "aliases": [
+            {
+                "alias": "workman",
+                "dir": "/Users/bturner/my_projects/workman",
+                "tags": [
+                    "cd",
+                    "tool",
+                    "locator"
+                ]
+            },
+            {
+                "alias": "eo-backend",
+                "dir": "/Users/bturner/workspace/eo-app/eo-backend",
+                "tags": [
+                    "enop",
+                    "optimizer"
+                ]
+            },
+            {
+                "alias": "eo-emerson-thermostat-control",
+                "dir": "/Users/bturner/workspace/eo-app/eo-backend/src/shared/provider/thermostat/emerson/client/eo-emerson-thermostat-control",
+                "tags": [
+                    "emerson",
+                    "settings",
+                    "rest",
+                    "sensi",
+                    "auth"
+                ]
+            },
+            {
+                "alias": "expo-push",
+                "dir": "/Users/bturner/workspace/eo-app/eo-backend/src/engagement/expo-push",
+                "tags": [
+                    "notification",
+                    "mobile",
+                    "expo",
+                    "push"
+                ]
+            },
+            {
+                "alias": "sns-push",
+                "dir": "/Users/bturner/workspace/eo-app/eo-backend/src/engagement/sns-push",
+                "tags": [
+                    "notification",
+                    "mobile",
+                    "sns",
+                    "push"
+                ]
+            },
+            {
+                "alias": "rules-engine",
+                "dir": "/Users/bturner/workspace/eo-app/eo-backend/src/rules-engine"
+            }
+        ],
+        "tags": [
+            "cd",
+            "tool",
+            "locator",
+            "notification",
+            "mobile",
+            "expo",
+            "push",
+            "emerson",
+            "settings",
+            "rest",
+            "sensi",
+            "auth",
+            "enop",
+            "optimizer",
+            "sns"
+        ]
+    }
+}
