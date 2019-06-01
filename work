@@ -75,6 +75,20 @@ def rename(existingAlias, newAlias) {
     println 'NOT YET IMPLEMENTED'
 }
 
+def delete(aliasName) {
+    println "delete(${aliasName})"
+    def json = aliasJson
+    def aliases = json.work.aliases.findAll { it.alias != aliasName }
+    json.work.aliases = aliases
+
+    def builder = new JsonBuilder(json)
+    aliasFile.newWriter().withWriter { w ->
+        w << builder.toPrettyString()
+    }
+
+}
+
+
 def getHomeDir() {
     def userhome = System.getProperty('user.home')
     def workHome = '/.work'
@@ -161,7 +175,7 @@ def save(custAlias) {
 if (args.size() == 0) {
     switchTo()
 }
-if (args.contains('-h') || args.contains('--help')) {
+else if (args.contains('-h') || args.contains('--help')) {
     usage()
 }
 else if (args.contains('--list')) {
@@ -171,8 +185,15 @@ else if (args.contains('--save')) {
     def custAlias = args.size() > 1 ? args[1] : '';
     save(custAlias)
 }
+else if (args.contains('--delete') && args.size() == 2) {
+    delete(args[1])
+}
 else if (args.size() == 1) {
     switchTo(args[0])
+}
+else {
+    echo "Command unknown."
+    usage()
 }
 
 println '...done'
