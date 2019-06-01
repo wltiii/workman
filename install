@@ -11,5 +11,7 @@
 # cp work ~/Dropbox/groovyscripts/
 cp work ~/.work
 cp newwork ~/.work
+chmod u=rwx,g=rx,o=rx ~/.work/work
+chmod u=rwx,g=rx,o=rx ~/.work/newwork
 
 echo "Add ~/.work to your PATH"
