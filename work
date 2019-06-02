@@ -75,12 +75,29 @@ def list() {
 }
 
 def rename(existingAlias, newAlias) {
-    println 'NOT YET IMPLEMENTED'
+    println "rename(${existingAlias, $newAlias})"
+    def json = aliasJson
+
+    def existing = json.work.aliases.find {
+        it.alias == existingAlias
+    }
+
+    if (existing) {
+        delete(existingAlias)
+        existing.alias = newAlias
+        json.work.aliases << existing
+        def builder = new JsonBuilder(json)
+        aliasFile.newWriter().withWriter { w ->
+            w << builder.toPrettyString()
+        }
+    }
 }
 
 def delete(aliasName) {
-    println "delete(${aliasName})"
+    // println "delete(${aliasName})"
     def json = aliasJson
+
+    // TODO use removeAll?
     def aliases = json.work.aliases.findAll { it.alias != aliasName }
     json.work.aliases = aliases
 
@@ -88,7 +105,6 @@ def delete(aliasName) {
     aliasFile.newWriter().withWriter { w ->
         w << builder.toPrettyString()
     }
-
 }
 
 
