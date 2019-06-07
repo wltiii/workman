@@ -75,7 +75,7 @@ def list() {
 }
 
 def rename(existingAlias, newAlias) {
-    println "rename(${existingAlias, $newAlias})"
+    println "rename(${existingAlias}, ${newAlias})"
     def json = aliasJson
 
     def existing = json.work.aliases.find {
