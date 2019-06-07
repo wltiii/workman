@@ -28,7 +28,7 @@ This tool helps not only identify projects, but will also:
 . filtered listing by tag(s)
 . listing of tags
 
-NOTE: as I write this, not all of these features are implemented. Likewise, the documentation
+NOTE: As I write this, not all of these features are implemented. Likewise, the documentation
 herein could be out of date. It is always best to refer to the _help_, or just read the code.
 
 == Getting Started
