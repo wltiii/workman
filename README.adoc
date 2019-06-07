@@ -17,7 +17,7 @@ a reminder to relevant directories. I use this at home, too, for I have many
 projects scattered about diverse directory hierarchies. For example, I have
 most of my code within a folder called _workspace_, and this contains many
 other, unrelated projects. Similarly, I have top level folders for _presentations_,
-_writing_, and others. It is easy to get confused.
+_writing_, and others. It is easy for me to get confused. ;-)
 
 This tool helps not only identify projects, but will also:
 
