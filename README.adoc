@@ -6,22 +6,30 @@ Bill Turner
 toc::[]
 
 == Purpose
-To provide a quick way to change or apply appropriate *tcr* - 
-_(test && commit) || revert_ - variants to projects.
+To easily switch terminal to different project homes.
 
 
 == Motivation
-Using tcr can be likened to doing *TDD* on steriods. Inspired 
-by projects like _SDKMAN_, the blog post _TCR Variants (test && commit || revert)_ and 
-the fact that many developers work as consultants or on diverse projects with
-different toolchains, a simple tool for installing and switching variants seemed necessary.
+I often prefer working from the command line. Being a long time consultant,
+on many projects, sometimes many within one bigger project, or _homes_ for
+many working directories within a project, it is nice to be able to have
+a reminder to relevant directories. I use this at home, too, for I have many
+projects scattered about diverse directory hierarchies. For example, I have
+most of my code within a folder called _workspace_, and this contains many
+other, unrelated projects. Similarly, I have top level folders for _presentations_,
+_writing_, and others. It is easy to get confused.
 
-It is hoped that this tool will:
+This tool helps not only identify projects, but will also:
 
-. increase adoption of tcr (and have more code driven by tests).
-. be flexible to meet needs of diverse development environments
-. expand upon variations 
-. share knowledge within the community.
+. launch a new terminal at saved project locations
+. easily remember alias names for projects
+. tags for projects to help remember what the project tooling is or other salient aspects
+. listing all projects
+. filtered listing by tag(s)
+. listing of tags
+
+NOTE: as I write this, not all of these features are implemented. Likewise, the documentation
+herein could be out of date. It is always best to refer to the _help_, or just read the code.
 
 == Getting Started
 === Linux Installation
@@ -43,12 +51,12 @@ used project alias. If no alias has been set, the directory will not change.
 
 `work --save`
 
-The save option saves the current path to the list of known work locations 
+The save option saves the current path to the list of known work locations
 using the final segment of the path as the alias. If said alias exists, it will be suffixed.
 
 `work --save <project alias>`
- 
-Adding a project alias after the save option adds the current path to the list of known 
+
+Adding a project alias after the save option adds the current path to the list of known
 work locations with the specificed project alias.
 
 `work <project alias>`
@@ -61,11 +69,9 @@ Lists the known work locations, showing both the alias and the corresponding pat
 
 `work --rename <existing project alias> <new project alias>`
 
-Renames the existing project alias to the new alias. If the new alias exists, it will be 
+Renames the existing project alias to the new alias. If the new alias exists, it will be
 suffixed. If the existing project alias does not exist, no change occurs.
 
 `work -h --help`
 
 Displays usage help.
-
-
