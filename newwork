@@ -2,24 +2,11 @@
 #
 TO=$1
 
-# See the following re: x-terminal-emulator:
-# https://askubuntu.com/questions/46627/how-can-i-make-a-script-that-opens-terminal-windows-and-executes-commands-in-the
-# https://unix.stackexchange.com/questions/219284/how-to-pass-an-argument-from-a-bash-script-to-x-terminal-emulator-e-bash-c
-# https://superuser.com/questions/491632/does-x-terminal-emulator-work-on-os-x
-
-# this link has stuff in it regarding copying over the environment, the shortened url points directly to one example
-# https://stackoverflow.com/questions/989349/running-a-command-in-a-new-mac-os-x-terminal-window
-# https://stackoverflow.com/a/29775705/471133
-
-# so, if using a mac, x-terminal-emulator is not available. might want to alias to terminal-app. or? how to make the last work on MAC? stupid MACs
-# possilby xterm?
-# https://invisible-island.net/xterm/xterm.faq.html
-
 case "$OSTYPE" in
-  solaris*) echo "SOLARIS" ;;
-  darwin*)  echo "OSX" ;; 
+  solaris*) echo "SOLARIS - not yet implemented." ;;
+  darwin*)  open -a Terminal $TO ;;
   linux*)   x-terminal-emulator -e "cd $TO; $SHELL" ;;
-  bsd*)     echo "BSD" ;;
-  msys*)    echo "WINDOWS" ;;
+  bsd*)     echo "BSD - not yet implemented." ;;
+  msys*)    echo "WINDOWS - not yet implemented." ;;
   *)        echo "unknown: $OSTYPE" ;;
 esac
