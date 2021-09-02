@@ -3,6 +3,8 @@
 @Grab(group='org.json', module='json', version='20180813')
 import groovy.json.JsonSlurper
 import groovy.json.JsonBuilder
+import java.util.Date
+import java.time.*
 
 def  usage() {
     println 'usage:'
@@ -87,9 +89,7 @@ def rename(existingAlias, newAlias) {
         existing.alias = newAlias
         json.work.aliases << existing
         def builder = new JsonBuilder(json)
-        aliasFile.newWriter().withWriter { w ->
-            w << builder.toPrettyString()
-        }
+        writeAliasFile(builder)
     }
 }
 
@@ -102,9 +102,7 @@ def delete(aliasName) {
     json.work.aliases = aliases
 
     def builder = new JsonBuilder(json)
-    aliasFile.newWriter().withWriter { w ->
-        w << builder.toPrettyString()
-    }
+    writeAliasFile(builder)
 }
 
 
@@ -129,6 +127,14 @@ def getAliasFile() {
     }
 
     return aliasFile
+}
+
+def getBackupFile() {
+    def now = new Date()
+    def epochMs = now.getTime()
+    def backupFile = new File(homeDir, "alias.json.$epochMs")
+    backupFile.createNewFile()
+    return backupFile
 }
 
 def slurpText(text) {
@@ -180,12 +186,35 @@ def save(custAlias) {
 
     def builder = jsonBuilder
    // set last alias
+    setLastAlias(name, builder, cwd)
+    // add to aliases
+    addToAliases(builder, name, cwd)
+
+    writeAliasFile(builder)
+}
+
+def current(custAlias) {
+    println "save(${custAlias})"
+    def cwd = System.getProperty('user.dir')
+    def name = custAlias ? custAlias : new File(cwd).name
+
+    def builder = jsonBuilder
+    setLastAlias(name, builder, cwd)
+
+    writeAliasFile(builder)
+}
+
+private void setLastAlias(java.lang.String name, JsonBuilder builder, cwd) {
+// set last alias
     builder.content.work.last.alias = name
     builder.content.work.last.dir = cwd
-    // add to aliases
-    builder.content.work.aliases << [ alias: name, dir: cwd ]
+}
 
-    // println builder.toPrettyString()
+private void addToAliases(JsonBuilder builder, java.lang.String name, cwd) {
+    builder.content.work.aliases << [alias: name, dir: cwd]
+}
+
+private void writeAliasFile(builder) {
     aliasFile.newWriter().withWriter { w ->
         w << builder.toPrettyString()
     }
@@ -206,6 +235,10 @@ else if (args.contains('--save')) {
 }
 else if (args.contains('--delete') && args.size() == 2) {
     delete(args[1])
+}
+else if (args.contains('--current')) {
+    def custAlias = args.size() > 1 ? args[1] : '';
+    current(custAlias)
 }
 else if (args.size() == 1) {
     switchTo(args[0])
